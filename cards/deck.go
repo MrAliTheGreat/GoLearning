@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -59,6 +60,16 @@ func (d deck) saveToFile(fileName string) error {
 	return ioutil.WriteFile(fileName, []byte(d.toString()), 0666)
 }
 
+func newDeckFromFile(fileName string) deck {
+	byteSlice, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	return deck(strings.Split(string(byteSlice), ","))
+}
+
 // This deck.go file is like when we want to create (declare) a class in a seperate file
 // Everything will be run through the main.go file
 // For importing multiple pkgs we can use () and mention each pkg in it without any comma. It's better than writing import each time!
@@ -82,6 +93,12 @@ func (d deck) saveToFile(fileName string) error {
 
 	For making a single string out []string we can again refer to Go standard library and use strings package
 	This package has a function named Join which like the join in Python
+*/
+// []byte is basically a string. []byte is the ascii value of each char of the string value. So the length of []byte is equal to number of chars in the string
+/*
+	For exiting the program we can use the os package of Go
+	By call Exit and giving it the value of 0 the program will stop and the 0 will mean that everything went well
+	But any non-zero value will show that there were some problems with the program, maybe an error occured
 */
 
 // VS Code must open on the working directory so that all the vars in different files can be recognized!

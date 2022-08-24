@@ -5,8 +5,11 @@ func newString() string {
 }
 
 func main() {
-	cards := newDeck()
-	cards.saveToFile("test.txt")
+	cards := newDeckFromFile("test.txt")
+	cards.print()
+
+	wrongCards := newDeckFromFile("notFound.txt")
+	wrongCards.print()
 }
 
 /*
