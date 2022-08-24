@@ -14,10 +14,30 @@ type deck []string
 	d is like the instance of deck that we are working with like the actual copy
 */
 func (d deck) print() {
-	for i, card := range d {
-		fmt.Println(i, card)
-		fmt.Println("=====")
+	for _, card := range d {
+		fmt.Println(card)
 	}
+}
+
+/*
+	We don't need a receiver here since we are creating a new deck
+	Like there are not any deck so we can't give access to nothing! we have to create it first then give access to it via receiver
+
+	In deck{} we have to put {} to make an empty slice. Without it the slice will NOT be initialized to empty slice by default
+*/
+func newDeck() deck {
+	cards := deck{}
+
+	numbers := []string{"Ace", "Two", "Three", "Four"}
+	marks := []string{"Spades", "Diamonds", "Hearts", "Clubs"}
+
+	for _, num := range numbers {
+		for _, mark := range marks {
+			cards = append(cards, num+" of "+mark)
+		}
+	}
+
+	return cards
 }
 
 // This deck.go file is like when we want to create (declare) a class in a seperate file

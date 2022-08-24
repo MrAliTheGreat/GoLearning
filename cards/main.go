@@ -5,10 +5,7 @@ func newString() string {
 }
 
 func main() {
-	// Declaration of a slice
-	cards := deck{newString(), "Card 1"}
-	// Appending to a slice
-	cards = append(cards, "Card 3")
+	cards := newDeck()
 	cards.print()
 }
 
