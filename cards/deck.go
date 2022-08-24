@@ -40,6 +40,11 @@ func newDeck() deck {
 	return cards
 }
 
+// Go has support for returning multiple values in a function like (deck, deck) here
+func deal(d deck, handSize int) (deck, deck) {
+	return d[:handSize], d[handSize:]
+}
+
 // This deck.go file is like when we want to create (declare) a class in a seperate file
 // Everything will be run through the main.go file
 /*
