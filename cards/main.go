@@ -7,14 +7,29 @@ func newString() string {
 }
 
 func main() {
-	// Different ways to declare a variable
-	var card_1 string = "Card 1"
-	var card_2 = "Card 2"
-	card_3 := "Card 3"
-	card_4 := newString()
+	// Declaration of a slice
+	cards := []string{newString(), "Card 1"}
+	// Appending to a slice
+	cards = append(cards, "Card 3")
 
-	fmt.Println(card_1)
-	fmt.Println(card_2)
-	fmt.Println(card_3)
-	fmt.Println(card_4)
+	for i, card := range cards {
+		fmt.Println(i, card)
+		fmt.Println("=====")
+	}
 }
+
+/*
+	For holding multiple values Go has two data structures
+	Array and slice
+	Arrays and slices are basically the same but
+	Arrays have fixed length
+	Slices can grow or shrink in size and they have more features than arrays
+	Elements in both of these data structures must be of same type
+*/
+// Append doesn't change the existing slice. It will create a new slice which then will be assigned to the exsiting slice
+// Index for elements starts from 0 in Go
+// Everytime we want to iterate through a slice or array we will use the keyword range
+// Range will kinda make the slice loopable!
+// In each iteration for the variables we will use :=
+// The reason for using := is that in each iteration the previous value of the vars will be deleted and we need to declare new vars each iteration
+// We can use _ for vars we won't use just like python!
