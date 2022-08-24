@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"strings"
 )
 
@@ -52,6 +53,12 @@ func (d deck) toString() string {
 	return strings.Join([]string(d), ",")
 }
 
+// We will just return the error of WriteFile - No handling
+// 0666 --> Everyone can read and write
+func (d deck) saveToFile(fileName string) error {
+	return ioutil.WriteFile(fileName, []byte(d.toString()), 0666)
+}
+
 // This deck.go file is like when we want to create (declare) a class in a seperate file
 // Everything will be run through the main.go file
 // For importing multiple pkgs we can use () and mention each pkg in it without any comma. It's better than writing import each time!
@@ -66,7 +73,7 @@ func (d deck) toString() string {
 	So something like --> go run *.go --> THIS DOESN'T WORK! Must provide all the names individually
 */
 /*
-	For saving to file we can refer to the standard library of Go and use ioutil package
+	For saving to file we can refer to the standard library of Go and use ioutil subpackage in io package
 	There is a func named WriteFile. It will receive the data in a slice of bytes format
 	So we need to convert our data to slice of bytes.
 	If our data is of type string we can easily convert it to slice of bytes by casting it to []byte --> []bytes(data)

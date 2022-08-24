@@ -1,14 +1,12 @@
 package main
 
-import "fmt"
-
 func newString() string {
 	return "Card 4"
 }
 
 func main() {
 	cards := newDeck()
-	fmt.Println(cards.toString())
+	cards.saveToFile("test.txt")
 }
 
 /*
