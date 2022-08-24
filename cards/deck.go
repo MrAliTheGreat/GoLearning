@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // This is like inheritance. Deck has all the functionality of a slice of strings
@@ -70,6 +72,19 @@ func newDeckFromFile(fileName string) deck {
 	return deck(strings.Split(string(byteSlice), ","))
 }
 
+func (d deck) shuffle() {
+	// These 2 lines below are for unique seed
+	src := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(src)
+
+	for i := range d {
+		// This will generate the same random value each time it's executed
+		// newPosition := rand.Intn(len(d))
+		newPosition := r.Intn(len(d))
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
+}
+
 // This deck.go file is like when we want to create (declare) a class in a seperate file
 // Everything will be run through the main.go file
 // For importing multiple pkgs we can use () and mention each pkg in it without any comma. It's better than writing import each time!
@@ -100,5 +115,12 @@ func newDeckFromFile(fileName string) deck {
 	By call Exit and giving it the value of 0 the program will stop and the 0 will mean that everything went well
 	But any non-zero value will show that there were some problems with the program, maybe an error occured
 */
-
+/*
+	For random numbers we can use the subpkg rand in pkg math
+	Using the rand alone will result in the same random value each time since the seed is the same each time
+	For creating a new seed each time we have to create a new rand instance and give a unique seed to it each time we use it for generating random values
+	The code in shuffle func shows how to do so
+	We can use the time for seed since each time we execute the program it's different
+	Seed value must be of Int64 type so we have to use UnixNano to convert the value of time to Int64 type
+*/
 // VS Code must open on the working directory so that all the vars in different files can be recognized!

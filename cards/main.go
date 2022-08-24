@@ -5,11 +5,9 @@ func newString() string {
 }
 
 func main() {
-	cards := newDeckFromFile("test.txt")
+	cards := newDeck()
+	cards.shuffle()
 	cards.print()
-
-	wrongCards := newDeckFromFile("notFound.txt")
-	wrongCards.print()
 }
 
 /*
