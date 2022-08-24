@@ -1,21 +1,15 @@
 package main
 
-import "fmt"
-
 func newString() string {
 	return "Card 4"
 }
 
 func main() {
 	// Declaration of a slice
-	cards := []string{newString(), "Card 1"}
+	cards := deck{newString(), "Card 1"}
 	// Appending to a slice
 	cards = append(cards, "Card 3")
-
-	for i, card := range cards {
-		fmt.Println(i, card)
-		fmt.Println("=====")
-	}
+	cards.print()
 }
 
 /*
