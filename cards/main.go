@@ -1,9 +1,5 @@
 package main
 
-func newString() string {
-	return "Card 4"
-}
-
 func main() {
 	cards := newDeck()
 	cards.shuffle()
@@ -25,3 +21,8 @@ func main() {
 // In each iteration for the variables we will use :=
 // The reason for using := is that in each iteration the previous value of the vars will be deleted and we need to declare new vars each iteration
 // We can use _ for vars we won't use just like python!
+/*
+	For testing we have to name the test file with _test.go
+	Meaning that if we want to test any code in a file named "a" we have to name the test file "a_test.go"
+	Then after righting the test codes we can run all the tests in a package by running go test
+*/
