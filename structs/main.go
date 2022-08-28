@@ -2,28 +2,38 @@ package main
 
 import "fmt"
 
+type contactInfo struct {
+	email string
+	zip   int
+}
+
+// We can remove contact and just leave contactInfo. Go will automatically create a field with the name contactInfo
 type person struct {
 	firstName string
 	lastName  string
+	contact   contactInfo
 }
 
 func main() {
-	// This way we have to rely on the order we put the attributes in the definition
-	// Which is a bit risky
-	alex := person{"Alex", "Anderson"}
-	// This is certainly better!
-	ali := person{firstName: "Ali", lastName: "Bahari"}
-	fmt.Println(alex)
-	fmt.Println(ali.firstName)
-	fmt.Println(alex.lastName)
+	alex := person{
+		firstName: "Alex",
+		lastName:  "Johnson",
+		contact: contactInfo{
+			email: "Alex@yahoo.com",
+			zip:   123,
+		},
+	}
 
-	var hossien person
-	fmt.Println(hossien)
-	hossien.firstName = "Hossein"
-	hossien.lastName = "Moradi"
-	fmt.Println(hossien)
+	alex.print()
 }
 
-/*
-	In Go if we don't assign a value to a var it will give it a zero value by default
-*/
+func (p person) print() {
+	fmt.Println("First Name: " + p.firstName)
+	fmt.Println("Last Name: " + p.lastName)
+	fmt.Println("Email: " + p.contact.email)
+	fmt.Printf("zip: %d", p.contact.zip)
+}
+
+// In Go if we don't assign a value to a var it will give it a zero value by default
+// When initializing a struct, all lines must have a , at the end of them. Even the last value
+// "%+v" in printf will print all the attribute names and their values in console
