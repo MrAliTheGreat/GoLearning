@@ -7,15 +7,29 @@ import (
 	"os"
 )
 
+// logWriter implements Writer interface by having a func named Write declared below
+type logWriter struct{}
+
 func main() {
 	resp, err := http.Get("http://www.google.com/")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	// Copy will take a writer and reader and would write any data that it gets from reader src to writer dst
-	io.Copy(os.Stdout, resp.Body)
 
+	lw := logWriter{}
+
+	// Copy will take a writer and reader and would write any data that it gets from reader src to writer dst
+	io.Copy(lw, resp.Body)
+
+}
+
+// Custom Write func for Writer interface
+// Int is for num of bytes written
+func (logWriter) Write(bs []byte) (int, error) {
+	fmt.Println(string(bs))
+	fmt.Println("Number of bytes:", len(bs))
+	return len(bs), nil
 }
 
 // When we put an interface as the type of a field in a struct it means that the field can be of any type as long as that type satisfies the mentioned interface
