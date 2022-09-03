@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 )
@@ -12,19 +13,9 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println(resp)
+	// Copy will take a writer and reader and would write any data that it gets from reader src to writer dst
+	io.Copy(os.Stdout, resp.Body)
 
-	// This will make a slice of byte which has 99999 empty elements
-	bs := make([]byte, 99999)
-	/*
-		resp is a pointer but we can access its field with just a dot no stars.
-		I think that's because Go will automatically make it right!
-		I checked with * and it works so Go is certainly doing something to help with it! Just like the shortcut in receiver funcs!
-	*/
-	resp.Body.Read(bs)
-	fmt.Println(string(bs))
-
-	// The above is certainly a pain in the ass! So, we can use helper function! Can be seen in the next commit
 }
 
 // When we put an interface as the type of a field in a struct it means that the field can be of any type as long as that type satisfies the mentioned interface
