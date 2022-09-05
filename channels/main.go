@@ -35,3 +35,24 @@ func checkLink(link string) {
 	We have to wait until we get to a certain site since the previous ones have to finish --> Checking status in different times instead of an exact time
 	So, let's go parallel!
 */
+/*
+	Our whole code is one go routine that executes each line of code one by one --> The main go routine is created when we launch our program
+	When we use a blocking call the main go routine stops and can do nothing else
+	So, for fixing this we can launch a new go routine!
+	We will use go when calling a func and this will run the func in a new go routine
+	When a go routine is calling a blocking statement everyone is informed so that can run in the meantime. Maybe a new go routine will be created or maybe another existing go routine will continue
+
+	Go has a Go scheduler. Go Scheduler in one core cpus will run only one go routine at a time
+	When a go routine is finished or running a blocking code the scheduler will tell the go routine you have had enough and will give the one core cpu to another go routine of its choice
+	So, truly the go routines are not running at the same time but since the context switch is so fast it seems like every go routine is executing at the same time --> Concurrency
+	Our program is CONCURRENT if it has the ability to load up multiple go routines at a time
+
+	Go in default tries to use only one core of cpu! for using more than one cpu we have to overwrite some settings!
+	Each core can run a go routine and since we have multiple of them the go scheduler will assign each a go routine to each core
+	This time each go routine is truly running at the same time --> Parallelism
+	We only get PARALLELISM once we start to include multiple physical cores on our machine
+	Run Go routine at the very exact time (requires multiple cores on the cpu, one go routine on one core at the same time) --> PARALLELISM
+
+	Go scheduler will work for each core meaning that for each core the go scheduler will decide which go routine to choose and execute
+	All other go routines that we create with the keyword "go" will be child go routines! (Instead of main go routine that is created once we run our program)
+*/
