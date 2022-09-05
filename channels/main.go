@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -21,13 +22,23 @@ func main() {
 		go checkLink(link, c)
 	}
 
-	// Another way of saying the infinite for loop from previous commit
+	// This is a func literal or lambda the func(){} part defines the func and the last () calls the func
+	// We want to pause 5s for each site so that there won't be too many requests
+	// This func literal will pause for 5s in the child routine and then fetch. Exactly what we want!
+	// We want the child go routine to pause so we must not call sleep in the main go routine
 	for l := range c {
-		go checkLink(l, c)
+		go func(link string) {
+			time.Sleep(5 * time.Second)
+			checkLink(link, c)
+		}(l)
 	}
 	/*
-		range c means that wait for the channel to return sime value
-		Then after the channel has returned some value assign it to var l
+		The l in the loop is in the main go routine but the l in func literal is in a child go routine
+		So by doing this and not passing l as a func var the reference to l will be used in the child go routine
+		Now l can change in the main go routine but in the child go routine with the previous l there is still some code left
+		If the remaining code uses l the new value will be used not previous one because of the whole reference thing --> Everything goes wrong!
+		So we have to pass l as func var to make it by value not by reference
+		since we are using a copy in the child go routine even if the one in the main go routine changes nothing will happen to the copy and nothing will go wrong!
 	*/
 }
 
@@ -84,4 +95,11 @@ func checkLink(link string, c chan string) {
 	channel <- data : Sending data into the channel
 	varName <- channel : Receiving data from channel and putting it in var varName
 	Really important to know: Receiving a data through a channel ( <-channel ) is a BLOCKING call!
+	Messages in the channel will get queued up if there are many of them. They won't be lost!
+*/
+/*
+	We should NEVER reference (access) a var in a go routine in another go routine
+	We ONLY share info with a child go routine by:
+	1. Passing the info as an argument
+	2. Over channels
 */
