@@ -15,7 +15,7 @@ func main() {
 	}
 
 	for _, link := range links {
-		checkLink(link)
+		go checkLink(link)
 	}
 }
 
@@ -25,7 +25,6 @@ func checkLink(link string) {
 		fmt.Println(link + " might be down!")
 		return
 	}
-
 	fmt.Println(link + " is up!")
 }
 
@@ -55,4 +54,9 @@ func checkLink(link string) {
 
 	Go scheduler will work for each core meaning that for each core the go scheduler will decide which go routine to choose and execute
 	All other go routines that we create with the keyword "go" will be child go routines! (Instead of main go routine that is created once we run our program)
+	The main go routine is the one that controls when our program ends. When there is nothing more to run, the main go routine will simply stop the program
+	The main go routine won't care if there is any other go routine (child go routines) still running when it reaches the end!
+
+
+	The keyword "go" can only be used before func calls
 */
