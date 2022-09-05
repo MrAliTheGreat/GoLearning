@@ -21,10 +21,14 @@ func main() {
 		go checkLink(link, c)
 	}
 
-	// The same as while true
-	for {
-		go checkLink(<-c, c)
+	// Another way of saying the infinite for loop from previous commit
+	for l := range c {
+		go checkLink(l, c)
 	}
+	/*
+		range c means that wait for the channel to return sime value
+		Then after the channel has returned some value assign it to var l
+	*/
 }
 
 func checkLink(link string, c chan string) {
