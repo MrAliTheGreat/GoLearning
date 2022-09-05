@@ -14,18 +14,28 @@ func main() {
 		"http://github.com",
 	}
 
+	// Creating a channel of type string. So only string can be passed through the channel between go routines
+	c := make(chan string)
+
 	for _, link := range links {
-		go checkLink(link)
+		go checkLink(link, c)
+	}
+
+	for i := 0; i < len(links); i++ {
+		// This is a blocking call. The main routine will stop until it gets a message through the channel
+		fmt.Println(<-c)
 	}
 }
 
-func checkLink(link string) {
+func checkLink(link string, c chan string) {
 	_, err := http.Get(link)
 	if err != nil {
 		fmt.Println(link + " might be down!")
+		c <- "Might be down buddy!!!"
 		return
 	}
 	fmt.Println(link + " is up!")
+	c <- "Up no doubt man!"
 }
 
 /*
@@ -57,6 +67,15 @@ func checkLink(link string) {
 	The main go routine is the one that controls when our program ends. When there is nothing more to run, the main go routine will simply stop the program
 	The main go routine won't care if there is any other go routine (child go routines) still running when it reaches the end!
 
-
 	The keyword "go" can only be used before func calls
+*/
+/*
+	Channels are used to communicate in between different go routines
+	Channel is the only way of communication between go routines
+	The data we attempt to share via a channel must all be of the same type
+	One channel can be used to make communication between main routine and other child routines
+	You can think of a channel as a group chat. Every go routine can send the same type of data to any other go routine via channels
+	channel <- data : Sending data into the channel
+	varName <- channel : Receiving data from channel and putting it in var varName
+	Really important to know: Receiving a data through a channel ( <-channel ) is a BLOCKING call!
 */
