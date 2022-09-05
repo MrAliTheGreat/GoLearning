@@ -21,9 +21,9 @@ func main() {
 		go checkLink(link, c)
 	}
 
-	for i := 0; i < len(links); i++ {
-		// This is a blocking call. The main routine will stop until it gets a message through the channel
-		fmt.Println(<-c)
+	// The same as while true
+	for {
+		go checkLink(<-c, c)
 	}
 }
 
@@ -31,11 +31,13 @@ func checkLink(link string, c chan string) {
 	_, err := http.Get(link)
 	if err != nil {
 		fmt.Println(link + " might be down!")
-		c <- "Might be down buddy!!!"
+		c <- link
 		return
 	}
 	fmt.Println(link + " is up!")
-	c <- "Up no doubt man!"
+	c <- link
+
+	// When link goes through the channel to the main go routine the main will understand which link is finished so it will call the func with that link again in a new go routine
 }
 
 /*
